@@ -7,6 +7,8 @@ const tokens = [
     { name: "KUJI", id: "kujira" },
 ];
 
+let chart;
+
 async function fetchPrices() {
     const currency = localStorage.getItem("currency") || "usd";
     const tokenIds = tokens.map(token => token.id).join(",");
@@ -31,6 +33,13 @@ async function fetchPrices() {
 function calculateValue() {
     let totalValue = 0;
     const currency = localStorage.getItem("currency") || "usd";
+    const individualBalancesContainer = document.getElementById("individual-balances");
+
+    if (individualBalancesContainer) {
+        individualBalancesContainer.innerHTML = ""; // Limpiar el contenedor antes de agregar nuevos elementos
+    }
+
+    const chartData = [];
 
     tokens.forEach(token => {
         const tokenInput = document.getElementById(`${token.name}Tokens`);
@@ -38,16 +47,67 @@ function calculateValue() {
 
         if (!isNaN(tokenAmount) && token.price) {
             totalValue += tokenAmount * token.price;
+
+            // Agregar saldos individuales al contenedor solo si el saldo es mayor que cero
+            if (individualBalancesContainer && tokenAmount * token.price > 0) {
+                const tokenBalance = tokenAmount * token.price;
+                const decimals = (currency === "usd" || currency === "eur") ? 2 : 8;
+                const individualBalanceElement = document.createElement("p");
+                individualBalanceElement.innerText = `${token.name}: ${tokenBalance.toFixed(decimals)} ${currency.toUpperCase()}`;
+                individualBalancesContainer.appendChild(individualBalanceElement);
+            // Agrega datos al array chartData si el saldo es mayor que cero
+            chartData.push({
+                tokenName: token.name,
+                tokenBalance: tokenAmount * token.price,
+            });
         }
-    });
-
-    const decimals = (currency === "usd" || currency === "eur") ? 2 : 8;
-    const resultElement = document.getElementById("result");
-
-    if (resultElement) {
-        resultElement.innerText = `Total balance: ${totalValue.toFixed(decimals)} ${currency.toUpperCase()}`;
     }
+});
+
+const decimals = (currency === "usd" || currency === "eur") ? 2 : 8;
+const resultElement = document.getElementById("result");
+
+if (resultElement) {
+    resultElement.innerText = `${totalValue.toFixed(decimals)} ${currency.toUpperCase()}`;
 }
+
+// Crear y actualizar el gráfico circular
+if (document.getElementById("chart")) {
+    if (chart) {
+        chart.destroy(); // Destruye el gráfico anterior antes de crear uno nuevo
+    }
+
+    const ctx = document.getElementById("chart").getContext("2d");
+    chart = new Chart(ctx, {
+        type: "pie",
+        data: {
+            labels: chartData.map(data => data.tokenName),
+            datasets: [
+                {
+                    data: chartData.map(data => data.tokenBalance),
+                    backgroundColor: [
+                        "#FF6384",
+                        "#36A2EB",
+                        "#FFCE56",
+                        "#4BC0C0",
+                        "#9966FF",
+                        "#FF9F40",
+                    ],
+                },
+            ],
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: "bottom",
+                },
+            },
+        },
+    });
+}
+}
+
 
 function saveToken(tokenName) {
     const tokenInput = document.getElementById(`${tokenName}Tokens`);

@@ -23,9 +23,10 @@ input {
 }
 
 #result {
-    font-size: 24px;
+    font-size: 36px;
     font-weight: bold;
     margin: 20px 0;
+    color: #4a47a3;
 }
 
 .unit-price {
@@ -41,4 +42,11 @@ label {
     .container {
         width: 90%;
     }
+}
+
+h2 {
+    font-size: 18px;
+    font-weight: normal;
+    color: #4a47a3;
+    margin-top: 0;
 }

@@ -4,13 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/styles.css">
-    <title>Balance</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>AstroFolio</title>
 </head>
 <body>
     <div class="container">
-        <h1>Balance</h1>
+        <h1>AstroFolio</h1>
+        <h2>Your decentralized portfolio for the COSMOS ecosystem</h2>
         <p id="result"></p>
-        <a href="input.html">Go to Token Input Page</a>
+        <div id="individual-balances"></div>
+        <canvas id="chart"></canvas> 
+        <p>
+        <a href="input.html">portfolio setup</a>
     </div>
     <script src="js/scripts.js"></script>
     <script>
