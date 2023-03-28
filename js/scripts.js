@@ -1,87 +1,90 @@
-const atomTokensInput = document.getElementById("atomTokens");
-const lunaTokensInput = document.getElementById("lunaTokens");
-const currencySelect = document.getElementById("currency");
-const atomPriceDisplay = document.getElementById("atomPrice");
-const lunaPriceDisplay = document.getElementById("lunaPrice");
-
-atomTokensInput.addEventListener("input", () => {
-    saveAtomTokens();
-    calculateValue();
-});
-
-lunaTokensInput.addEventListener("input", () => {
-    saveLunaTokens();
-    calculateValue();
-});
+const tokens = [
+    { name: "ATOM", id: "cosmos" },
+    { name: "LUNA", id: "terra-luna-2" },
+    { name: "OSMO", id: "osmosis" },
+    { name: "JUNO", id: "juno-network" },
+    { name: "EVMOS", id: "evmos" },
+    { name: "KUJI", id: "kujira" },
+];
 
 async function fetchPrices() {
-    const currency = currencySelect.value;
-    const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=cosmos,terra-luna-2&vs_currencies=${currency}`);
+    const currency = localStorage.getItem("currency") || "usd";
+    const tokenIds = tokens.map(token => token.id).join(",");
+    const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenIds}&vs_currencies=${currency}`);
     const data = await response.json();
-    const atomPrice = data.cosmos[currency];
-    const lunaPrice = data["terra-luna-2"][currency];
-    const decimals = (currency === "usd" || currency === "eur") ? 2 : 8;
-    atomPriceDisplay.innerText = `${atomPrice.toFixed(decimals)} ${currency.toUpperCase()}`;
-    lunaPriceDisplay.innerText = `${lunaPrice.toFixed(decimals)} ${currency.toUpperCase()}`;
+
+    tokens.forEach(token => {
+        const tokenPrice = data[token.id][currency];
+        const decimals = (currency === "usd" || currency === "eur") ? 2 : 8;
+        const tokenPriceElement = document.getElementById(`${token.name}Price`);
+
+        if (tokenPriceElement) {
+            tokenPriceElement.innerText = `${tokenPrice.toFixed(decimals)} ${currency.toUpperCase()}`;
+        }
+
+        token.price = tokenPrice;
+    });
+
     calculateValue();
 }
 
 function calculateValue() {
-    const atomTokens = parseFloat(atomTokensInput.value);
-    const atomPrice = parseFloat(atomPriceDisplay.innerText);
-    const lunaTokens = parseFloat(lunaTokensInput.value);
-    const lunaPrice = parseFloat(lunaPriceDisplay.innerText);
-    const currency = currencySelect.value.toUpperCase();
+    let totalValue = 0;
+    const currency = localStorage.getItem("currency") || "usd";
 
-    if (isNaN(atomTokens) || isNaN(atomPrice) ||
-        isNaN(lunaTokens) || isNaN(lunaPrice)) {
-        document.getElementById("result").innerText = "";
-        return;
-    }
+    tokens.forEach(token => {
+        const tokenInput = document.getElementById(`${token.name}Tokens`);
+        const tokenAmount = tokenInput ? parseFloat(tokenInput.value) : parseFloat(localStorage.getItem(`${token.name}Tokens`)) || 0;
 
-    const atomValue = atomTokens * atomPrice;
-    const lunaValue = lunaTokens * lunaPrice;
-    const totalValue = atomValue + lunaValue;
-    const decimals = (currency === "USD" || currency === "EUR") ? 2 : 8;
-    document.getElementById("result").innerText = `Total balance: ${totalValue.toFixed(decimals)} ${currency}`;
-}
+        if (!isNaN(tokenAmount) && token.price) {
+            totalValue += tokenAmount * token.price;
+        }
+    });
 
-function saveAtomTokens() {
-    localStorage.setItem("atomTokens", atomTokensInput.value);
-}
+    const decimals = (currency === "usd" || currency === "eur") ? 2 : 8;
+    const resultElement = document.getElementById("result");
 
-function loadAtomTokens() {
-    const savedAtomTokens = localStorage.getItem("atomTokens");
-    if (savedAtomTokens) {
-        atomTokensInput.value = savedAtomTokens;
+    if (resultElement) {
+        resultElement.innerText = `Total balance: ${totalValue.toFixed(decimals)} ${currency.toUpperCase()}`;
     }
 }
 
-function saveLunaTokens() {
-    localStorage.setItem("lunaTokens", lunaTokensInput.value);
+function saveToken(tokenName) {
+    const tokenInput = document.getElementById(`${tokenName}Tokens`);
+    localStorage.setItem(tokenName + "Tokens", tokenInput.value);
 }
 
-function loadLunaTokens() {
-    const savedLunaTokens = localStorage.getItem("lunaTokens");
-    if (savedLunaTokens) {
-        lunaTokensInput.value = savedLunaTokens;
+function loadToken(tokenName) {
+    const savedToken = localStorage.getItem(tokenName + "Tokens");
+    const tokenInput = document.getElementById(`${tokenName}Tokens`);
+
+    if (savedToken && tokenInput) {
+        tokenInput.value = savedToken;
     }
 }
 
 function saveCurrency() {
+    const currencySelect = document.getElementById("currency");
     localStorage.setItem("currency", currencySelect.value);
 }
 
 function loadCurrency() {
     const savedCurrency = localStorage.getItem("currency");
-    if (savedCurrency) {
+    const currencySelect = document.getElementById("currency");
+
+    if (savedCurrency && currencySelect) {
         currencySelect.value = savedCurrency;
     }
 }
 
+function loadAllTokens() {
+    tokens.forEach(token => {
+        loadToken(token.name);
+    });
+}
+
 window.addEventListener("load", () => {
-    loadAtomTokens();
-    loadLunaTokens();
+    loadAllTokens();
     loadCurrency();
     fetchPrices();
 });

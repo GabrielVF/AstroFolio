@@ -3,32 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AstroFolio</title>
     <link rel="stylesheet" href="css/styles.css">
+    <title>Balance</title>
 </head>
 <body>
     <div class="container">
-        <h1>AstroFolio</h1>
+        <h1>Balance</h1>
         <p id="result"></p>
-        <p>
-            <label for="atomTokens">$ATOM:</label>
-            <input type="number" id="atomTokens" min="0">
-            <span class="unit-price" id="atomPrice"></span>
-        </p>
-        <p>
-            <label for="lunaTokens">$LUNA:</label>
-            <input type="number" id="lunaTokens" min="0">
-            <span class="unit-price" id="lunaPrice"></span>
-        </p>
-        <p>
-            Currency: 
-            <select id="currency" onchange="saveCurrency(); fetchPrices();">
-                <option value="usd">USD</option>
-                <option value="eur">EUR</option>
-                <option value="btc">BTC</option>
-            </select>
-        </p>
+        <a href="input.html">Go to Token Input Page</a>
     </div>
     <script src="js/scripts.js"></script>
+    <script>
+        window.addEventListener("load", () => {
+            loadAllTokens();
+            loadCurrency();
+            fetchPrices();
+        });
+    </script>
 </body>
 </html>
