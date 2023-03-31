@@ -52,16 +52,21 @@ function calculateValue() {
             if (individualBalancesContainer && tokenAmount * token.price > 0) {
                 const tokenBalance = tokenAmount * token.price;
                 const decimals = (currency === "usd" || currency === "eur") ? 2 : 8;
-                const individualBalanceElement = document.createElement("p");
-                individualBalanceElement.innerText = `${token.name}: ${tokenBalance.toFixed(decimals)} ${currency.toUpperCase()}`;
-                individualBalancesContainer.appendChild(individualBalanceElement);
+                const individualBalanceElement = document.createElement("div");
+                individualBalanceElement.className = "individual-balance-item";
+                individualBalanceElement.innerHTML = `
+                    <span class="token-name">${token.name}:</span>
+                    <span class="token-balance">${tokenBalance.toFixed(decimals)} ${currency.toUpperCase()}</span>
+                `;
+                 individualBalancesContainer.appendChild(individualBalanceElement);
+            }
+ 
             // Agrega datos al array chartData si el saldo es mayor que cero
             chartData.push({
                 tokenName: token.name,
                 tokenBalance: tokenAmount * token.price,
             });
         }
-    }
 });
 
 const decimals = (currency === "usd" || currency === "eur") ? 2 : 8;
@@ -71,43 +76,41 @@ if (resultElement) {
     resultElement.innerText = `${totalValue.toFixed(decimals)} ${currency.toUpperCase()}`;
 }
 
-// Crear y actualizar el gráfico circular
-if (document.getElementById("chart")) {
-    if (chart) {
-        chart.destroy(); // Destruye el gráfico anterior antes de crear uno nuevo
-    }
+// Filtrar los datos del gráfico para excluir tokens con saldo cero
+    const filteredChartData = chartData.filter(data => data.tokenBalance > 0);
+    
+// Generar colores aleatorios para cada token en filteredChartData
+    const backgroundColors = filteredChartData.map(() => getRandomColor());
 
-    const ctx = document.getElementById("chart").getContext("2d");
-    chart = new Chart(ctx, {
-        type: "pie",
-        data: {
-            labels: chartData.map(data => data.tokenName),
-            datasets: [
-                {
-                    data: chartData.map(data => data.tokenBalance),
-                    backgroundColor: [
-                        "#FF6384",
-                        "#36A2EB",
-                        "#FFCE56",
-                        "#4BC0C0",
-                        "#9966FF",
-                        "#FF9F40",
-                    ],
-                },
-            ],
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: "bottom",
+// Crear y actualizar el gráfico circular
+    if (document.getElementById("chart")) {
+        if (chart) {
+            chart.destroy(); // Destruye el gráfico anterior antes de crear uno nuevo
+        }
+
+        const ctx = document.getElementById("chart").getContext("2d");
+        chart = new Chart(ctx, {
+            type: "pie",
+            data: {
+                labels: filteredChartData.map(data => data.tokenName),
+                datasets: [
+                    {
+                        data: filteredChartData.map(data => data.tokenBalance),
+                        backgroundColor: backgroundColors,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: "bottom",
+                    },
                 },
             },
-        },
-    });
+        });
+    }
 }
-}
-
 
 function saveToken(tokenName) {
     const tokenInput = document.getElementById(`${tokenName}Tokens`);
@@ -141,6 +144,15 @@ function loadAllTokens() {
     tokens.forEach(token => {
         loadToken(token.name);
     });
+}
+
+function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
 }
 
 window.addEventListener("load", () => {

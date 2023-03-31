@@ -14,6 +14,61 @@ body {
     padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.header {
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 30px;
+    background-color: #4a47a3;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+    font-size: 2.5em;
+    margin-bottom: 0.2em;
+}
+
+.header h2 {
+    font-size: 1.3em;
+    margin-top: 0.2em;
+    font-weight: normal;
+    color: #e0e0e0;
+}
+
+.balance-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.individual-balance, .total-balance {
+    background-color: #f0f0f0;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    min-width: 150px;
+}
+
+.individual-balance p, .total-balance p {
+    margin: 0;
+}
+
+.individual-balance p:first-child, .total-balance p:first-child {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+canvas {
+    display: block;
+    margin: 20px auto;
 }
 
 input {
@@ -23,9 +78,8 @@ input {
 }
 
 #result {
-    font-size: 36px;
+    font-size: 2em;
     font-weight: bold;
-    margin: 20px 0;
     color: #4a47a3;
 }
 
@@ -38,15 +92,57 @@ label {
     width: 80px;
 }
 
+/* Other CSS rules remain the same */
+
+.balance-section {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.total-balance {
+    width: 100%;
+    text-align: center;
+    background-color: #f0f0f0;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+}
+
+#chart-container {
+    margin: 20px;
+}
+
+#individual-balances-container {
+    margin: 20px;
+}
+
+.individual-balance-item {
+    background-color: #f8f8f8;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 5px;
+}
+
+.individual-balance-item .token-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.individual-balance-item .token-balance {
+    font-size: 0.9em;
+}
+
 @media screen and (max-width: 600px) {
     .container {
         width: 90%;
     }
-}
 
-h2 {
-    font-size: 18px;
-    font-weight: normal;
-    color: #4a47a3;
-    margin-top: 0;
+    .balance-section {
+        flex-direction: column;
+        align-items: center;
+    }
 }
