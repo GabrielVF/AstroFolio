@@ -11,22 +11,23 @@
     <div class="container">
         <div class="header">
             <h1>AstroFolio</h1>
-            <h2>Your portfolio for the COSMOS ecosystem</h2>
+            <h2>Your decentralized portfolio for the COSMOS ecosystem</h2>
         </div>
         <div class="balance-section">
             <div class="total-balance">
             <p>Total Balance:</p>
             <p id="result"></p>
         </div>
-            <div id="chart-container">
-                <canvas id="chart"></canvas>
-            </div>
-            <div id="individual-balances-container">
-                <div id="individual-balances"></div>
-            </div>
+        <div id="chart-container">
+            <canvas id="chart"></canvas>
         </div>
-        <a href="input.html">Portfolio Setup</a>
+        <div id="individual-balances-container">
+            <h3>Main Positions:</h3>
+            <div id="individual-balances"></div>
+        </div>
     </div>
+        <p>
+        <a href="input.html">Portfolio Setup</a>
     <script src="js/scripts.js"></script>
     <script>
         window.addEventListener("load", () => {

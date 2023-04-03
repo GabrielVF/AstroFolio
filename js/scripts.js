@@ -1,10 +1,37 @@
 const tokens = [
     { name: "ATOM", id: "cosmos" },
+    { name: "CRO", id: "crypto-com-chain" },
     { name: "LUNA", id: "terra-luna-2" },
     { name: "OSMO", id: "osmosis" },
     { name: "JUNO", id: "juno-network" },
     { name: "EVMOS", id: "evmos" },
-    { name: "KUJI", id: "kujira" },
+    { name: "LUNC", id: "terra-luna" },
+    { name: "RUNE", id: "thorchain" },
+    { name: "INJ", id: "injective-protocol" },
+    { name: "KAVA", id: "kava" },
+    { name: "ANKR", id: "ankr" },
+    { name: "BAND", id: "band-protocol" },
+    { name: "KDA", id: "kadena" },
+    { name: "SCRT", id: "secret" },
+    { name: "AXL", id: "axelar" },
+    { name: "BLD", id: "agoric" },
+    { name: "AKT", id: "akash-network" },
+    { name: "XPRT", id: "persistence" },
+    { name: "IRIS", id: "iris-network" },
+    { name: "UMEE", id: "umee" },
+    { name: "STARS", id: "stargaze" },
+    { name: "REGEN", id: "regen" },
+    { name: "ION", id: "ion" },
+    { name: "MARS", id: "mars-protocol-a7fcbcfb-fd61-4017-92f0-7ee9f9cc6da3" },
+    { name: "CMDX", id: "comdex" },
+    { name: "IXO", id: "ixo" },
+    { name: "ASTRO", id: "astroport-fi" },
+    { name: "HUAHUA", id: "chihuahua-token" },
+    { name: "STRD", id: "stride" },
+    { name: "STATOM", id: "stride-staked-atom" },
+    { name: "STOSMO", id: "stride-staked-osmo" },
+    { name: "STLUNA", id: "stride-staked-luna" },
+    { name: "STJUNO", id: "stride-staked-juno" },
 ];
 
 let chart;
@@ -48,41 +75,44 @@ function calculateValue() {
         if (!isNaN(tokenAmount) && token.price) {
             totalValue += tokenAmount * token.price;
 
-            // Agregar saldos individuales al contenedor solo si el saldo es mayor que cero
-            if (individualBalancesContainer && tokenAmount * token.price > 0) {
-                const tokenBalance = tokenAmount * token.price;
-                const decimals = (currency === "usd" || currency === "eur") ? 2 : 8;
-                const individualBalanceElement = document.createElement("div");
-                individualBalanceElement.className = "individual-balance-item";
-                individualBalanceElement.innerHTML = `
-                    <span class="token-name">${token.name}:</span>
-                    <span class="token-balance">${tokenBalance.toFixed(decimals)} ${currency.toUpperCase()}</span>
-                `;
-                 individualBalancesContainer.appendChild(individualBalanceElement);
-            }
- 
             // Agrega datos al array chartData si el saldo es mayor que cero
             chartData.push({
                 tokenName: token.name,
                 tokenBalance: tokenAmount * token.price,
             });
         }
-});
+    });
 
-const decimals = (currency === "usd" || currency === "eur") ? 2 : 8;
-const resultElement = document.getElementById("result");
+    const decimals = (currency === "usd" || currency === "eur") ? 2 : 8;
+    const resultElement = document.getElementById("result");
 
-if (resultElement) {
-    resultElement.innerText = `${totalValue.toFixed(decimals)} ${currency.toUpperCase()}`;
-}
+    if (resultElement) {
+        resultElement.innerText = `${totalValue.toFixed(decimals)} ${currency.toUpperCase()}`;
+    }
 
-// Filtrar los datos del gráfico para excluir tokens con saldo cero
+    // Filtrar los datos del gráfico para excluir tokens con saldo cero
     const filteredChartData = chartData.filter(data => data.tokenBalance > 0);
-    
-// Generar colores aleatorios para cada token en filteredChartData
+
+    // Ordenar los datos del gráfico por saldo descendente y tomar los 5 más altos
+    const sortedChartData = filteredChartData.sort((a, b) => b.tokenBalance - a.tokenBalance).slice(0, 5);
+
+    // Agregar saldos individuales al contenedor solo si el saldo es mayor que cero
+    sortedChartData.forEach(data => {
+        if (individualBalancesContainer && data.tokenBalance > 0) {
+            const individualBalanceElement = document.createElement("div");
+            individualBalanceElement.className = "individual-balance-item";
+            individualBalanceElement.innerHTML = `
+                <span class="token-name">${data.tokenName}:</span>
+                <span class="token-balance">${data.tokenBalance.toFixed(decimals)} ${currency.toUpperCase()}</span>
+            `;
+            individualBalancesContainer.appendChild(individualBalanceElement);
+        }
+    });
+
+    // Generar colores aleatorios para cada token en filteredChartData
     const backgroundColors = filteredChartData.map(() => getRandomColor());
 
-// Crear y actualizar el gráfico circular
+    // Crear y actualizar el gráfico circular
     if (document.getElementById("chart")) {
         if (chart) {
             chart.destroy(); // Destruye el gráfico anterior antes de crear uno nuevo

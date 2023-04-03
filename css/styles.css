@@ -2,10 +2,12 @@ body {
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     height: 100vh;
     margin: 0;
     background-color: #f0f0f0;
+    min-height: 400px; /* Ajusta este valor según sea necesario */
+    overflow-y: auto; /* Permite el desplazamiento vertical si el contenido no cabe */
 }
 
 .container {
@@ -17,12 +19,15 @@ body {
     width: 80%;
     max-width: 800px;
     margin: 0 auto;
+    margin: 2rem auto; /* Agregado 2rem de margen superior */
+    min-height: 400px; /* Ajusta este valor según sea necesario */
+    overflow-y: auto; /* Permite el desplazamiento vertical si el contenido no cabe */
 }
 
 .header {
     text-align: center;
     padding: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     background-color: #4a47a3;
     color: white;
     border-radius: 5px;
@@ -41,27 +46,11 @@ body {
     color: #e0e0e0;
 }
 
-.balance-container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
-}
-
-.individual-balance, .total-balance {
-    background-color: #f0f0f0;
-    padding: 1rem;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin: 10px;
-    min-width: 150px;
-}
-
-.individual-balance p, .total-balance p {
+.total-balance p {
     margin: 0;
 }
 
-.individual-balance p:first-child, .total-balance p:first-child {
+.total-balance p:first-child {
     margin-bottom: 5px;
     font-weight: bold;
 }
@@ -92,30 +81,59 @@ label {
     width: 80px;
 }
 
-/* Other CSS rules remain the same */
-
 .balance-section {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
 }
 
-.total-balance {
-    width: 100%;
+.total-balance, #chart-container {
     text-align: center;
     background-color: #f0f0f0;
     padding: 1rem;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin: 10px;
+    display: inline-block;
+}
+
+.total-balance {
+    width: 100%;
 }
 
 #chart-container {
-    margin: 20px;
+    width: auto; 
+    height: auto;
 }
 
 #individual-balances-container {
-    margin: 20px;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#individual-balances-container h3 {
+    font-family: 'Arial', sans-serif;
+    font-size: 24px;
+    letter-spacing: 1px;
+    color: #333;
+    margin: 0 0 10px;
+    text-align: center;
+    border: 2px solid #ccc;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#individual-balances {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .individual-balance-item {
@@ -140,9 +158,9 @@ label {
     .container {
         width: 90%;
     }
-
-    .balance-section {
-        flex-direction: column;
-        align-items: center;
+    .total-balance, #chart-container {
+        margin-left: 0;
+        margin-right: 0;
     }
+
 }
