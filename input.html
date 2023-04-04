@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/input-styles.css">
     <title>Portfolio Setup</title>
 </head>
 <body>
@@ -20,30 +20,51 @@
         </p>
         <a href="index.html">Go to Main Page</a>
     </div>
+    <script src="js/tokens.js"></script>
     <script src="js/scripts.js"></script>
     <script>
-        function createTokenInputElements() {
-            const tokenInputList = document.getElementById("token-input-list");
+    
+function renderTokens() {
+    const categories = ["Project Tokens", "Liquid Staking", "Stablecoins", "Bridget Tokens"];
+    const tokenInputList = document.getElementById("token-input-list");
 
-            tokens.forEach(token => {
+    categories.forEach(category => {
+        const tokenCategory = document.createElement("div");
+        tokenCategory.className = "token-category";
+
+        const tokenCategoryTitle = document.createElement("h2");
+        tokenCategoryTitle.innerText = category;
+        tokenCategoryTitle.className = "token-category-title";
+        tokenCategory.appendChild(tokenCategoryTitle);
+
+        const tokenList = document.createElement("div");
+        tokenList.className = "token-list";
+
+        tokens
+            .filter(token => token.category === category)
+            .forEach(token => {
                 const tokenInputElement = document.createElement("p");
                 tokenInputElement.innerHTML = `
-                    <label for="${token.name}Tokens">$${token.name}:</label>
+                    <label for="${token.name}Tokens">${token.tag}:</label>
                     <input type="number" id="${token.name}Tokens" min="0">
                     <span class="unit-price" id="${token.name}Price"></span>
                 `;
-                tokenInputList.appendChild(tokenInputElement);
+                tokenList.appendChild(tokenInputElement);
 
-                const tokenInput = document.getElementById(`${token.name}Tokens`);
+                const tokenInput = tokenInputElement.querySelector(`input[id="${token.name}Tokens"]`);
                 tokenInput.addEventListener("input", () => {
                     saveToken(token.name);
                     calculateValue();
                 });
             });
-        }
+
+        tokenCategory.appendChild(tokenList);
+        tokenInputList.appendChild(tokenCategory);
+    });
+}
 
         window.addEventListener("load", () => {
-            createTokenInputElements();
+            renderTokens();
             loadAllTokens();
             loadCurrency();
             fetchPrices();

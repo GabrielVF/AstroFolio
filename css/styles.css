@@ -26,7 +26,7 @@ body {
 
 .header {
     text-align: center;
-    padding: 20px;
+    padding: 10px;
     margin-bottom: 10px;
     background-color: #4a47a3;
     color: white;
@@ -35,22 +35,19 @@ body {
 }
 
 .header h1 {
-    font-size: 2.5em;
-    margin-bottom: 0.2em;
+    font-size: 2em;
+    margin-bottom: 0.1em;
 }
 
 .header h2 {
-    font-size: 1.3em;
-    margin-top: 0.2em;
+    font-size: 1em;
+    margin-top: 0.1em;
     font-weight: normal;
     color: #e0e0e0;
 }
 
 .total-balance p {
     margin: 0;
-}
-
-.total-balance p:first-child {
     margin-bottom: 5px;
     font-weight: bold;
 }
@@ -87,7 +84,11 @@ label {
     flex-wrap: wrap;
 }
 
-.total-balance, #chart-container {
+.total-balance {
+    width: 100%;
+}
+
+.total-balance, #chart-container, #individual-balances-container {
     text-align: center;
     background-color: #f0f0f0;
     padding: 1rem;
@@ -95,38 +96,7 @@ label {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin: 10px;
     display: inline-block;
-}
-
-.total-balance {
-    width: 100%;
-}
-
-#chart-container {
-    width: auto; 
-    height: auto;
-}
-
-#individual-balances-container {
-    border-radius: 5px;
-    padding: 20px;
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#individual-balances-container h3 {
-    font-family: 'Arial', sans-serif;
-    font-size: 24px;
-    letter-spacing: 1px;
-    color: #333;
-    margin: 0 0 10px;
-    text-align: center;
-    border: 2px solid #ccc;
-    background-color: #f9f9f9;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
 }
 
 #individual-balances {
@@ -145,7 +115,7 @@ label {
 }
 
 .individual-balance-item .token-name {
-    font-size: 1.2em;
+    font-size: 0.9em;
     font-weight: bold;
     margin-right: 5px;
 }
@@ -153,6 +123,19 @@ label {
 .individual-balance-item .token-balance {
     font-size: 0.9em;
 }
+
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.category {
+    flex: 1;
+    min-width: 300px;
+}
+
 
 @media screen and (max-width: 600px) {
     .container {

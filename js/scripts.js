@@ -1,39 +1,3 @@
-const tokens = [
-    { name: "ATOM", id: "cosmos" },
-    { name: "CRO", id: "crypto-com-chain" },
-    { name: "LUNA", id: "terra-luna-2" },
-    { name: "OSMO", id: "osmosis" },
-    { name: "JUNO", id: "juno-network" },
-    { name: "EVMOS", id: "evmos" },
-    { name: "LUNC", id: "terra-luna" },
-    { name: "RUNE", id: "thorchain" },
-    { name: "INJ", id: "injective-protocol" },
-    { name: "KAVA", id: "kava" },
-    { name: "ANKR", id: "ankr" },
-    { name: "BAND", id: "band-protocol" },
-    { name: "KDA", id: "kadena" },
-    { name: "SCRT", id: "secret" },
-    { name: "AXL", id: "axelar" },
-    { name: "BLD", id: "agoric" },
-    { name: "AKT", id: "akash-network" },
-    { name: "XPRT", id: "persistence" },
-    { name: "IRIS", id: "iris-network" },
-    { name: "UMEE", id: "umee" },
-    { name: "STARS", id: "stargaze" },
-    { name: "REGEN", id: "regen" },
-    { name: "ION", id: "ion" },
-    { name: "MARS", id: "mars-protocol-a7fcbcfb-fd61-4017-92f0-7ee9f9cc6da3" },
-    { name: "CMDX", id: "comdex" },
-    { name: "IXO", id: "ixo" },
-    { name: "ASTRO", id: "astroport-fi" },
-    { name: "HUAHUA", id: "chihuahua-token" },
-    { name: "STRD", id: "stride" },
-    { name: "STATOM", id: "stride-staked-atom" },
-    { name: "STOSMO", id: "stride-staked-osmo" },
-    { name: "STLUNA", id: "stride-staked-luna" },
-    { name: "STJUNO", id: "stride-staked-juno" },
-];
-
 let chart;
 
 async function fetchPrices() {
@@ -78,8 +42,10 @@ function calculateValue() {
             // Agrega datos al array chartData si el saldo es mayor que cero
             chartData.push({
                 tokenName: token.name,
+                tokenTag: token.tag, // Agrega la propiedad "tag" del token aquí
                 tokenBalance: tokenAmount * token.price,
             });
+
         }
     });
 
@@ -92,18 +58,23 @@ function calculateValue() {
 
     // Filtrar los datos del gráfico para excluir tokens con saldo cero
     const filteredChartData = chartData.filter(data => data.tokenBalance > 0);
+    
+    // Calcular el porcentaje de cada token y agregarlo a filteredChartData
+    filteredChartData.forEach(data => {
+        data.percentage = (data.tokenBalance / totalValue) * 100;
+    });
 
     // Ordenar los datos del gráfico por saldo descendente y tomar los 5 más altos
     const sortedChartData = filteredChartData.sort((a, b) => b.tokenBalance - a.tokenBalance).slice(0, 5);
 
-    // Agregar saldos individuales al contenedor solo si el saldo es mayor que cero
+    // Agregar saldos individuales y porcentajes al contenedor
     sortedChartData.forEach(data => {
         if (individualBalancesContainer && data.tokenBalance > 0) {
             const individualBalanceElement = document.createElement("div");
             individualBalanceElement.className = "individual-balance-item";
             individualBalanceElement.innerHTML = `
-                <span class="token-name">${data.tokenName}:</span>
-                <span class="token-balance">${data.tokenBalance.toFixed(decimals)} ${currency.toUpperCase()}</span>
+                <span class="token-name">${data.tokenTag}:</span>
+                <span class="token-balance">${data.tokenBalance.toFixed(decimals)} ${currency.toUpperCase()} (${data.percentage.toFixed(2)}%)</span>
             `;
             individualBalancesContainer.appendChild(individualBalanceElement);
         }
