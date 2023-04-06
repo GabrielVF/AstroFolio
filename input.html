@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/input-styles.css">
-    <title>Portfolio Setup</title>
+    <title>AstroFolio - Portfolio Setup</title>
 </head>
 <body>
     <div class="container">
-        <h1>Portfolio Setup</h1>
+        <h1><span class="title">AstroFolio</span> <span class="subtitle">Your decentralized portfolio for the COSMOS ecosystem</span></h1>
+        <hr>
+	<p class="portfolio-setup">On this page you can put the number of units you have of each token. AstroFolio will do the rest.</p>
         <div id="token-input-list"></div>
         <p>
             Currency:
@@ -27,13 +29,24 @@
 function renderTokens() {
     const categories = ["Project Tokens", "Liquid Staking", "Stablecoins", "Bridget Tokens"];
     const tokenInputList = document.getElementById("token-input-list");
+    
+    const categoryDescriptions = {
+    "Project Tokens": "Native tokens of COSMOS projects, like their own exclusive superheroes, and sometimes they let you have a say in their affairs!",
+    "Liquid Staking": "Tokens that let you earn rewards and be part of the staking club, without feeling like your assets are caged!",
+    "Stablecoins": "Tokens that don't suffer identity crises, always know their worth, and aim to be predictably boring!",
+    "Bridget Tokens": "Globetrotting tokens from other blockchains, hopping from one bridge to another to join the party in COSMOS!",
+    };
 
     categories.forEach(category => {
         const tokenCategory = document.createElement("div");
         tokenCategory.className = "token-category";
 
         const tokenCategoryTitle = document.createElement("h2");
-        tokenCategoryTitle.innerText = category;
+        tokenCategoryTitle.innerHTML = `
+    <span>${category}</span>
+    <br>
+    <p class="token-category-description">${categoryDescriptions[category]}</p>
+`;
         tokenCategoryTitle.className = "token-category-title";
         tokenCategory.appendChild(tokenCategoryTitle);
 

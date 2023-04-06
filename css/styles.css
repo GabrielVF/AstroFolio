@@ -69,10 +69,6 @@ input {
     color: #4a47a3;
 }
 
-.unit-price {
-    font-weight: bold;
-}
-
 label {
     display: inline-block;
     width: 80px;
