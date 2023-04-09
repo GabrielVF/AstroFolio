@@ -51,10 +51,20 @@ function calculateValue() {
 
     const decimals = (currency === "usd" || currency === "eur") ? 2 : 8;
     const resultElement = document.getElementById("result");
+    
+    if (totalValue === 0) {
+    document.getElementById("welcome-message").style.display = "block";
+} else {
+    document.getElementById("welcome-message").style.display = "none";
+}
+
 
     if (resultElement) {
         resultElement.innerText = `${totalValue.toFixed(decimals)} ${currency.toUpperCase()}`;
     }
+    
+    toggleSections(totalValue);
+
 
     // Filtrar los datos del gráfico para excluir tokens con saldo cero
     const filteredChartData = chartData.filter(data => data.tokenBalance > 0);
@@ -129,7 +139,9 @@ function loadToken(tokenName) {
 
 function saveCurrency() {
     const currencySelect = document.getElementById("currency");
-    localStorage.setItem("currency", currencySelect.value);
+    if (currencySelect) {
+        localStorage.setItem("currency", currencySelect.value);
+    }
 }
 
 function loadCurrency() {
@@ -156,8 +168,29 @@ function getRandomColor() {
     return color;
 }
 
+function toggleSections(totalBalance) {
+    const balanceSection = document.querySelector('.balance-section');
+    const welcomeMessage = document.getElementById('welcome-message');
+    
+    if (totalBalance === 0) {
+        balanceSection.style.display = 'none';
+        welcomeMessage.style.display = 'block';
+    } else {
+        balanceSection.style.display = 'flex';
+        welcomeMessage.style.display = 'none';
+    }
+}
+
+
 window.addEventListener("load", () => {
     loadAllTokens();
     loadCurrency();
     fetchPrices();
+    const currencySelect = document.getElementById("currency");
+    if (currencySelect) {
+        currencySelect.addEventListener("change", () => {
+            saveCurrency();
+            fetchPrices();
+        });
+    }
 });

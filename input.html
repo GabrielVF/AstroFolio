@@ -8,19 +8,28 @@
 </head>
 <body>
     <div class="container">
-        <h1><span class="title">AstroFolio</span> <span class="subtitle">Your decentralized portfolio for the COSMOS ecosystem</span></h1>
+        <h1><span class="title"><a href="index.html">AstroFolio</a></span> <span class="subtitle">Your decentralized portfolio app for the COSMOS ecosystem</span></h1>
         <hr>
 	<p class="portfolio-setup">On this page you can put the number of units you have of each token. AstroFolio will do the rest.</p>
         <div id="token-input-list"></div>
-        <p>
-            Currency:
-            <select id="currency" onchange="saveCurrency(); fetchPrices();">
-                <option value="usd">USD</option>
-                <option value="eur">EUR</option>
-                <option value="btc">BTC</option>
-            </select>
-        </p>
-        <a href="index.html">Go to Main Page</a>
+</p>
+<p class="footer-links">
+  <a href="index.html">Go to Main Page</a>
+  <a href="https://github.com/GabrielVF/AstroFolio">GitHub</a>
+  <a href="https://twitter.com/_AstroFolio_">Twitter</a></p>
+<div class="currency-selector">
+  <label for="currency">Currency:</label>
+  <select id="currency" name="currency">
+    <option value="usd">USD</option>
+    <option value="eur">EUR</option>
+    <option value="btc">BTC</option>
+    <option value="eth">ETH</option>
+  </select>
+</div>
+<p class="donation-text">
+  Feeling generous? Help me evolve this project with a small donation – every penny helps me make cents of the crypto world! 😉 cosmos17x36s94egm45e8swmt7fn45x9pef9m22gcxtll
+</p>
+
     </div>
     <script src="js/tokens.js"></script>
     <script src="js/scripts.js"></script>
@@ -83,5 +92,6 @@ function renderTokens() {
             fetchPrices();
         });
     </script>
+    <button class="floating-button" onclick="window.location.href='index.html'">Go back</button>
 </body>
 </html>
