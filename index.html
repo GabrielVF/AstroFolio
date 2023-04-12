@@ -4,61 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js library -->
     <title>AstroFolio</title>
 </head>
 <body>
     <div class="container">
+        <!-- Header section -->
         <div class="header">
             <h1>AstroFolio</h1>
             <h2>Your decentralized portfolio app for the COSMOS ecosystem</h2>
         </div>
         
+        <!-- Welcome message (initially hidden) -->
         <div id="welcome-message" style="display:none;">
-    <h3>Welcome to AstroFolio!</h3>
-    <p>
-        To get started, please visit the
-        <a href="input.html">portfolio setup page</a> and
-        add the number of tokens you own for each project. AstroFolio will automatically calculate the value of
-        your portfolio and provide an overview of your investments in the COSMOS ecosystem.
-    </p>
-</div>
+            <h3>Welcome to AstroFolio!</h3>
+            <p>
+                To get started, please visit the
+                <a href="input.html">portfolio setup page</a> and
+                add the number of tokens you own for each project. AstroFolio will automatically calculate the value of
+                your portfolio and provide an overview of your investments in the COSMOS ecosystem.
+            </p>
+        </div>
         
+        <!-- Balance section -->
         <div class="balance-section">
+            <!-- Total balance -->
             <div class="total-balance">
-            <p>Total Assets</p>
-            <p id="result"></p>
+                <p>Total Assets</p>
+                <p id="result"></p>
+            </div>
+            <!-- Token allocation chart -->
+            <div id="chart-container">
+                <p>Token Allocation</p>
+                <canvas id="chart"></canvas>
+            </div>
+            <!-- Individual balances -->
+            <div id="individual-balances-container">
+                <p>Main Positions</p>
+                <div id="individual-balances"></div>
+            </div>
         </div>
-        <div id="chart-container">
-            <p>Token Allocation</p>
-            <canvas id="chart"></canvas>
-        </div>
-        <div id="individual-balances-container">
-            <p>Main Positions</p>
-            <div id="individual-balances"></div>
-        </div>
-    </div>
-        <p>
+        
+        <!-- Footer links -->
         <p class="footer-links">
-  <a href="input.html">Go to Portfolio Setup</a>
-  <a href="https://github.com/GabrielVF/AstroFolio">GitHub</a>
-  <a href="https://twitter.com/_AstroFolio_">Twitter</a>
-</p>
-<div class="currency-selector">
-  <label for="currency">Currency:</label>
-  <select id="currency" name="currency">
-    <option value="usd">USD</option>
-    <option value="eur">EUR</option>
-    <option value="btc">BTC</option>
-    <option value="eth">ETH</option>
-  </select>
-</div>
-<p class="donation-text">
-  Feeling generous? Help me evolve this project with a small donation – every penny helps me make cents of the crypto world! 😉 cosmos17x36s94egm45e8swmt7fn45x9pef9m22gcxtll
-</p>
+            <a href="input.html">Go to Portfolio Setup</a>
+            <a href="https://github.com/GabrielVF/AstroFolio">GitHub</a>
+            <a href="https://twitter.com/AstroFolio">Twitter</a>
+        </p>
+        
+        <!-- Currency selector -->
+        <div class="currency-selector">
+            <label for="currency">Currency:</label>
+            <select id="currency" name="currency">
+                <option value="usd">USD</option>
+                <option value="eur">EUR</option>
+                <option value="btc">BTC</option>
+                <option value="eth">ETH</option>
+                <option value="atom">ATOM</option> 
+            </select>
+        </div>
+        
+        <!-- Donation message -->
+        <p class="donation-text">
+            Feeling generous? Help me evolve this project with a small donation – every penny helps me make cents of the crypto world! 😉 cosmos17x36s94egm45e8swmt7fn45x9pef9m22gcxtll
+        </p>
+        
+    </div> <!-- end of container -->
+
+    <!-- JavaScript files -->
     <script src="js/tokens.js"></script>
     <script src="js/scripts.js"></script>
     <script>
+        // Load tokens, currency, and fetch prices on window load
         window.addEventListener("load", () => {
             loadAllTokens();
             loadCurrency();

@@ -1,13 +1,29 @@
+// Variable to store the chart instance
 let chart;
 
+// Function to fetch token prices
 async function fetchPrices() {
     const currency = localStorage.getItem("currency") || "usd";
     const tokenIds = tokens.map(token => token.id).join(",");
-    const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenIds}&vs_currencies=${currency}`);
+    const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenIds}&vs_currencies=usd,${currency}`);
     const data = await response.json();
 
+    let atomToUsd = 1;
+    if (currency === "atom") {
+        const atomResponse = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=cosmos&vs_currencies=usd");
+        const atomData = await atomResponse.json();
+        atomToUsd = atomData.cosmos.usd;
+    }
+
     tokens.forEach(token => {
-        const tokenPrice = data[token.id][currency];
+        let tokenPrice;
+
+        if (currency === "atom") {
+            tokenPrice = data[token.id].usd / atomToUsd;
+        } else {
+            tokenPrice = data[token.id][currency];
+        }
+
         const decimals = (currency === "usd" || currency === "eur") ? 2 : 8;
         const tokenPriceElement = document.getElementById(`${token.name}Price`);
 
@@ -21,13 +37,14 @@ async function fetchPrices() {
     calculateValue();
 }
 
+// Function to calculate the total value and individual token balances
 function calculateValue() {
     let totalValue = 0;
     const currency = localStorage.getItem("currency") || "usd";
     const individualBalancesContainer = document.getElementById("individual-balances");
 
     if (individualBalancesContainer) {
-        individualBalancesContainer.innerHTML = ""; // Limpiar el contenedor antes de agregar nuevos elementos
+        individualBalancesContainer.innerHTML = ""; // Clear the container before adding new elements
     }
 
     const chartData = [];
@@ -39,10 +56,10 @@ function calculateValue() {
         if (!isNaN(tokenAmount) && token.price) {
             totalValue += tokenAmount * token.price;
 
-            // Agrega datos al array chartData si el saldo es mayor que cero
+            // Add data to the chartData array if the balance is greater than zero
             chartData.push({
                 tokenName: token.name,
-                tokenTag: token.tag, // Agrega la propiedad "tag" del token aquí
+                tokenTag: token.tag, // Add the token's "tag" property here
                 tokenBalance: tokenAmount * token.price,
             });
 
@@ -51,13 +68,6 @@ function calculateValue() {
 
     const decimals = (currency === "usd" || currency === "eur") ? 2 : 8;
     const resultElement = document.getElementById("result");
-    
-    if (totalValue === 0) {
-    document.getElementById("welcome-message").style.display = "block";
-} else {
-    document.getElementById("welcome-message").style.display = "none";
-}
-
 
     if (resultElement) {
         resultElement.innerText = `${totalValue.toFixed(decimals)} ${currency.toUpperCase()}`;
@@ -65,22 +75,21 @@ function calculateValue() {
     
     toggleSections(totalValue);
 
-
-    // Filtrar los datos del gráfico para excluir tokens con saldo cero
+    // Filter the chart data to exclude tokens with a zero balance
     const filteredChartData = chartData.filter(data => data.tokenBalance > 0);
     
-    // Calcular el porcentaje de cada token y agregarlo a filteredChartData
+    // Calculate the percentage of each token and add it to filteredChartData
     filteredChartData.forEach(data => {
         data.percentage = (data.tokenBalance / totalValue) * 100;
     });
 
-    // Ordenar los datos del gráfico por saldo descendente y tomar los 5 más altos
+    // Sort the chart data by balance descending and take the top 5
     const sortedChartData = filteredChartData.sort((a, b) => b.tokenBalance - a.tokenBalance).slice(0, 5);
 
-    // Agregar saldos individuales y porcentajes al contenedor
+    // Add individual balances and percentages to the container
     sortedChartData.forEach(data => {
         if (individualBalancesContainer && data.tokenBalance > 0) {
-            const individualBalanceElement = document.createElement("div");
+                        const individualBalanceElement = document.createElement("div");
             individualBalanceElement.className = "individual-balance-item";
             individualBalanceElement.innerHTML = `
                 <span class="token-name">${data.tokenTag}:</span>
@@ -90,13 +99,13 @@ function calculateValue() {
         }
     });
 
-    // Generar colores aleatorios para cada token en filteredChartData
+    // Generate random colors for each token in filteredChartData
     const backgroundColors = filteredChartData.map(() => getRandomColor());
 
-    // Crear y actualizar el gráfico circular
+    // Create and update the pie chart
     if (document.getElementById("chart")) {
         if (chart) {
-            chart.destroy(); // Destruye el gráfico anterior antes de crear uno nuevo
+            chart.destroy(); // Destroy the previous chart before creating a new one
         }
 
         const ctx = document.getElementById("chart").getContext("2d");
@@ -123,6 +132,7 @@ function calculateValue() {
     }
 }
 
+// Functions to save and load token amounts
 function saveToken(tokenName) {
     const tokenInput = document.getElementById(`${tokenName}Tokens`);
     localStorage.setItem(tokenName + "Tokens", tokenInput.value);
@@ -137,6 +147,7 @@ function loadToken(tokenName) {
     }
 }
 
+// Functions to save and load currency
 function saveCurrency() {
     const currencySelect = document.getElementById("currency");
     if (currencySelect) {
@@ -153,12 +164,14 @@ function loadCurrency() {
     }
 }
 
+// Function to load all tokens
 function loadAllTokens() {
     tokens.forEach(token => {
         loadToken(token.name);
     });
 }
 
+// Function to generate a random color
 function getRandomColor() {
     const letters = '0123456789ABCDEF';
     let color = '#';
@@ -168,6 +181,7 @@ function getRandomColor() {
     return color;
 }
 
+// Function to toggle sections based on total balance
 function toggleSections(totalBalance) {
     const balanceSection = document.querySelector('.balance-section');
     const welcomeMessage = document.getElementById('welcome-message');
@@ -181,7 +195,7 @@ function toggleSections(totalBalance) {
     }
 }
 
-
+// Event listener for the window load event
 window.addEventListener("load", () => {
     loadAllTokens();
     loadCurrency();
@@ -194,3 +208,4 @@ window.addEventListener("load", () => {
         });
     }
 });
+

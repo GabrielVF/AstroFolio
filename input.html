@@ -1,70 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Basic meta tags for charset and viewport -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link to the input-styles.css stylesheet -->
     <link rel="stylesheet" href="css/input-styles.css">
+    <!-- Title of the webpage -->
     <title>AstroFolio - Portfolio Setup</title>
 </head>
 <body>
+    <!-- Main container for the content of the page -->
     <div class="container">
-        <h1><span class="title"><a href="index.html">AstroFolio</a></span> <span class="subtitle">Your decentralized portfolio app for the COSMOS ecosystem</span></h1>
+        <!-- Title and subtitle of the page -->
+        <h1>
+            <span class="title"><a href="index.html">AstroFolio</a></span>
+            <span class="subtitle">Your decentralized portfolio app for the COSMOS ecosystem</span>
+        </h1>
         <hr>
-	<p class="portfolio-setup">On this page you can put the number of units you have of each token. AstroFolio will do the rest.</p>
+        <!-- Description of the portfolio setup -->
+        <p class="portfolio-setup">
+            On this page you can put the number of units you have of each token. AstroFolio will do the rest.
+        </p>
+        <!-- Container for the token input list -->
         <div id="token-input-list"></div>
-</p>
-<p class="footer-links">
-  <a href="index.html">Go to Main Page</a>
-  <a href="https://github.com/GabrielVF/AstroFolio">GitHub</a>
-  <a href="https://twitter.com/_AstroFolio_">Twitter</a></p>
-<div class="currency-selector">
-  <label for="currency">Currency:</label>
-  <select id="currency" name="currency">
-    <option value="usd">USD</option>
-    <option value="eur">EUR</option>
-    <option value="btc">BTC</option>
-    <option value="eth">ETH</option>
-  </select>
-</div>
-<p class="donation-text">
-  Feeling generous? Help me evolve this project with a small donation – every penny helps me make cents of the crypto world! 😉 cosmos17x36s94egm45e8swmt7fn45x9pef9m22gcxtll
-</p>
-
+        <!-- Footer links for navigation and social media -->
+        <p class="footer-links">
+            <a href="index.html">Go to Main Page</a>
+            <a href="https://github.com/GabrielVF/AstroFolio">GitHub</a>
+            <a href="https://twitter.com/AstroFolio">Twitter</a>
+        </p>
+        <!-- Currency selector dropdown -->
+        <div class="currency-selector">
+            <label for="currency">Currency:</label>
+            <select id="currency" name="currency">
+                <option value="usd">USD</option>
+                <option value="eur">EUR</option>
+                <option value="btc">BTC</option>
+                <option value="eth">ETH</option>
+                <option value="atom">ATOM</option>
+            </select>
+        </div>
+        <!-- Donation text -->
+        <p class="donation-text">
+            Feeling generous? Help me evolve this project with a small donation – every penny helps me make cents of the crypto world! 😉 cosmos17x36s94egm45e8swmt7fn45x9pef9m22gcxtll
+        </p>
     </div>
+    <!-- JavaScript files -->
     <script src="js/tokens.js"></script>
     <script src="js/scripts.js"></script>
     <script>
-    
-function renderTokens() {
+        // Function to render tokens and their input fields
+        function renderTokens() {
+    // Define the token categories
     const categories = ["Project Tokens", "Liquid Staking", "Stablecoins", "Bridget Tokens"];
+
+    // Get the token input list container from the DOM
     const tokenInputList = document.getElementById("token-input-list");
-    
+
+    // Define the descriptions for each category
     const categoryDescriptions = {
-    "Project Tokens": "Native tokens of COSMOS projects, like their own exclusive superheroes, and sometimes they let you have a say in their affairs!",
-    "Liquid Staking": "Tokens that let you earn rewards and be part of the staking club, without feeling like your assets are caged!",
-    "Stablecoins": "Tokens that don't suffer identity crises, always know their worth, and aim to be predictably boring!",
-    "Bridget Tokens": "Globetrotting tokens from other blockchains, hopping from one bridge to another to join the party in COSMOS!",
+        "Project Tokens": "Native tokens of COSMOS projects, like their own exclusive superheroes, and sometimes they let you have a say in their affairs!",
+        "Liquid Staking": "Tokens that let you earn rewards and be part of the staking club, without feeling like your assets are caged!",
+        "Stablecoins": "Tokens that don't suffer identity crises, always know their worth, and aim to be predictably boring!",
+        "Bridget Tokens": "Globetrotting tokens from other blockchains, hopping from one bridge to another to join the party in COSMOS!",
     };
 
+    // Iterate through the categories
     categories.forEach(category => {
+        // Create a container for the token category
         const tokenCategory = document.createElement("div");
         tokenCategory.className = "token-category";
 
+        // Create a title element for the token category
         const tokenCategoryTitle = document.createElement("h2");
         tokenCategoryTitle.innerHTML = `
-    <span>${category}</span>
-    <br>
-    <p class="token-category-description">${categoryDescriptions[category]}</p>
-`;
+            <span>${category}</span>
+            <br>
+            <p class="token-category-description">${categoryDescriptions[category]}</p>
+        `;
         tokenCategoryTitle.className = "token-category-title";
         tokenCategory.appendChild(tokenCategoryTitle);
 
+        // Create a container for the token list
         const tokenList = document.createElement("div");
         tokenList.className = "token-list";
 
+        // Filter tokens based on the current category and iterate through them
         tokens
             .filter(token => token.category === category)
             .forEach(token => {
+                // Create a token input element container
                 const tokenInputElement = document.createElement("p");
                 tokenInputElement.innerHTML = `
                     <label for="${token.name}Tokens">${token.tag}:</label>
@@ -73,6 +99,7 @@ function renderTokens() {
                 `;
                 tokenList.appendChild(tokenInputElement);
 
+                // Add an input event listener to the token input field
                 const tokenInput = tokenInputElement.querySelector(`input[id="${token.name}Tokens"]`);
                 tokenInput.addEventListener("input", () => {
                     saveToken(token.name);
@@ -80,11 +107,15 @@ function renderTokens() {
                 });
             });
 
+        // Append the token list to the token category container
         tokenCategory.appendChild(tokenList);
+
+        // Append the token category container to the token input list container
         tokenInputList.appendChild(tokenCategory);
     });
 }
 
+        // Event listener to render tokens, load data, and fetch prices on window load
         window.addEventListener("load", () => {
             renderTokens();
             loadAllTokens();
@@ -92,6 +123,7 @@ function renderTokens() {
             fetchPrices();
         });
     </script>
+    <!-- Floating button to go back -->
     <button class="floating-button" onclick="window.location.href='index.html'">Go back</button>
 </body>
 </html>

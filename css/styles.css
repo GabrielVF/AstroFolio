@@ -1,15 +1,15 @@
+/* Global styles for the body */
 body {
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    height: 100vh;
     margin: 0;
     background-color: #f0f0f0;
-    min-height: 400px; /* Ajusta este valor según sea necesario */
-    overflow-y: auto; /* Permite el desplazamiento vertical si el contenido no cabe */
+    overflow-y: auto;
 }
 
+/* Styles for the main container */
 .container {
     text-align: center;
     background-color: white;
@@ -18,12 +18,10 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 80%;
     max-width: 800px;
-    margin: 0 auto;
-    margin: 2rem auto; /* Agregado 2rem de margen superior */
-    min-height: 400px; /* Ajusta este valor según sea necesario */
-    overflow-y: auto; /* Permite el desplazamiento vertical si el contenido no cabe */
+    margin: 2rem auto;
 }
 
+/* Styles for the header section */
 .header {
     text-align: center;
     padding: 10px;
@@ -32,14 +30,16 @@ body {
     color: white;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-style: italic
+    font-style: italic;
 }
 
+/* Styles for the main title in the header */
 .header h1 {
     font-size: 2em;
     margin-bottom: 0.1em;
 }
 
+/* Styles for the subtitle in the header */
 .header h2 {
     font-size: 1em;
     margin-top: 0.1em;
@@ -47,6 +47,7 @@ body {
     color: #e0e0e0;
 }
 
+/* Styles for the welcome message section */
 #welcome-message {
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
@@ -55,60 +56,65 @@ body {
     margin-bottom: 5px;
 }
 
+/* Styles for the welcome message title */
 #welcome-message h3 {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 10px;
 }
 
+/* Styles for the welcome message paragraph */
 #welcome-message p {
     font-size: 16px;
     line-height: 1.5;
 }
 
-#welcome-message a {
-    text-decoration: none;
-    font-weight: bold;
-}
-
+/* Styles for the total balance section */
 .total-balance p {
     margin: 0;
     margin-bottom: 5px;
     font-weight: bold;
 }
 
+/* Styles for the canvas element (chart) */
 canvas {
     display: block;
     margin: 20px auto;
 }
 
+/* Styles for input fields */
 input {
     margin: 5px;
     width: 10ch;
     font-size: 1.2em;
 }
 
+/* Styles for the result paragraph */
 #result {
     font-size: 2em;
     font-weight: bold;
     color: #4a47a3;
 }
 
+/* Styles for label elements */
 label {
     display: inline-block;
     width: 80px;
 }
 
+/* Styles for the balance section (flex container) */
 .balance-section {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
 }
 
+/* Styles for the total balance container */
 .total-balance {
     width: 100%;
 }
 
+/* Common styles for balance containers */
 .total-balance, #chart-container, #individual-balances-container {
     text-align: center;
     background-color: #f0f0f0;
@@ -120,6 +126,7 @@ label {
     font-weight: bold;
 }
 
+/* Styles for individual balances container */
 #individual-balances {
     flex-grow: 1;
     display: flex;
@@ -127,6 +134,7 @@ label {
     justify-content: center;
 }
 
+/* Styles for individual balance items */
 .individual-balance-item {
     background-color: #f8f8f8;
     padding: 10px;
@@ -135,16 +143,19 @@ label {
     margin: 5px;
 }
 
+/* Styles for the token name in individual balance items */
 .individual-balance-item .token-name {
     font-size: 0.9em;
     font-weight: bold;
     margin-right: 5px;
 }
 
+/* Styles for the token balance in individual balance items */
 .individual-balance-item .token-balance {
     font-size: 0.9em;
 }
 
+/* Styles for the categories container */
 .categories {
     display: flex;
     flex-wrap: wrap;
@@ -152,11 +163,13 @@ label {
     justify-content: center;
 }
 
+/* Styles for the category items */
 .category {
     flex: 1;
     min-width: 300px;
 }
 
+/* Styles for the currency selector, footer links, and donation text */
 .currency-selector,
 .footer-links,
 .donation-text {
@@ -167,6 +180,7 @@ label {
   margin: 10px 0;
 }
 
+/* Styles for the footer links */
 .footer-links a {
   text-decoration: none;
   color: #4a4a4a;
@@ -174,10 +188,12 @@ label {
   transition: color 0.3s;
 }
 
+/* Styles for the footer links on hover */
 .footer-links a:hover {
   color: #2a2a2a;
 }
 
+/* Styles for the donation text */
 .donation-text {
   font-style: italic;
   font-size: 0.9em;
@@ -186,13 +202,16 @@ label {
   margin: 0 auto;
 }
 
+/* Media query for responsive design */
 @media screen and (max-width: 600px) {
+    /* Styles for the container on small screens */
     .container {
         width: 90%;
     }
+    /* Styles for the total balance and chart container on small screens */
     .total-balance, #chart-container {
         margin-left: 0;
         margin-right: 0;
     }
-
 }
+

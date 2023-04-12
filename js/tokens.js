@@ -23,7 +23,7 @@ const tokens = [
   { name: "KAVA", id: "kava", tag: "Kava (KAVA)", category: "Project Tokens" },
   { name: "KDA", id: "kadena", tag: "Kadena (KDA)", category: "Project Tokens" },
   { name: "KUJI", id: "kujira", tag: "Kujira (KUJI)", category: "Project Tokens" },
-  { name: "LUNC", id: "terra-luna", tag: "Terra Luna (LUNC)", category: "Project Tokens" },
+  { name: "LUNC", id: "terra-luna", tag: "Terra Clasic (LUNC)", category: "Project Tokens" },
   { name: "LUNA", id: "terra-luna-2", tag: "Terra (LUNA)", category: "Project Tokens" },
   { name: "MARS", id: "mars-protocol-a7fcbcfb-fd61-4017-92f0-7ee9f9cc6da3", tag: "Mars Protocol (MARS)", category: "Project Tokens" },
   { name: "OSMO", id: "osmosis", tag: "Osmosis (OSMO)", category: "Project Tokens" },
