@@ -9,7 +9,6 @@ AstroFolio is a decentralized portfolio tracking app for the COSMOS ecosystem, d
 - **Portfolio value in multiple currencies**: View your portfolio value in USD, EUR, BTC, ETH, and ATOM.
 - **Interactive chart**: Get an overview of your token allocation with a responsive pie chart.
 - **Easy setup**: Add your token balances on the portfolio setup page and AstroFolio will automatically calculate the value of your investments.
-- **Dark mode**: Choose between light and dark modes for a comfortable user experience.
 
 ## How to use
 
