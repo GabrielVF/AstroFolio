@@ -30,6 +30,7 @@ const tokens = [
   { name: "QCK", id: "quicksilver", tag: "Quicksilver (QCK)", category: "Project Tokens" },
   { name: "XPRT", id: "persistence", tag: "Persistence (XPRT)", category: "Project Tokens" },
   { name: "REGEN", id: "regen", tag: "Regen Network (REGEN)", category: "Project Tokens" },
+  { name: "ROAR", id: "lion-dao", tag: "Lion DAO (ROAR)", category: "Project Tokens" },
   { name: "RUNE", id: "thorchain", tag: "THORChain (RUNE)", category: "Project Tokens" },
   { name: "SCRT", id: "secret", tag: "Secret Network (SCRT)", category: "Project Tokens" },
   { name: "SOMM", id: "sommelier", tag: "Sommelier (SOMM)", category: "Project Tokens" },
