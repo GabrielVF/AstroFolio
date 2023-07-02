@@ -26,6 +26,7 @@ const tokens = [
   { name: "LUNC", id: "terra-luna", tag: "Terra Clasic (LUNC)", category: "Project Tokens" },
   { name: "LUNA", id: "terra-luna-2", tag: "Terra (LUNA)", category: "Project Tokens" },
   { name: "MARS", id: "mars-protocol-a7fcbcfb-fd61-4017-92f0-7ee9f9cc6da3", tag: "Mars Protocol (MARS)", category: "Project Tokens" },
+  { name: "NEUTRON", id: "neutron-3", tag: "Neutron (NTRN)", category: "Project Tokens" },
   { name: "OSMO", id: "osmosis", tag: "Osmosis (OSMO)", category: "Project Tokens" },
   { name: "QCK", id: "quicksilver", tag: "Quicksilver (QCK)", category: "Project Tokens" },
   { name: "XPRT", id: "persistence", tag: "Persistence (XPRT)", category: "Project Tokens" },
