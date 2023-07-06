@@ -1,6 +1,7 @@
 const tokens = [
   { name: "AKT", id: "akash-network", tag: "Akash Network (AKT)", category: "Project Tokens" },
   { name: "ANKR", id: "ankr", tag: "Ankr (ANKR)", category: "Project Tokens" },
+  { name: "ARCH", id: "archway", tag: "Archway (ARCH)", category: "Project Tokens" },
   { name: "ASTRO", id: "astroport-fi", tag: "Astroport (ASTRO)", category: "Project Tokens" },
   { name: "AXL", id: "axelar", tag: "Axelar (AXL)", category: "Project Tokens" },
   { name: "axlWBTC", id: "axlwbtc", tag: "Axelar BTC (axlWBTC)", category: "Bridget Tokens" },
